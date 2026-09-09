@@ -5,6 +5,7 @@ import { ApiError } from "../utils/ApiError";
 
 
 const verifyFirebaseToken = asyncHandler (async(req:Request, res:Response, next:NextFunction)=>{
+    console.log("AUTH MIDDLEWARE REACHED")
     const authHeaders = req.headers.authorization;
     if(!authHeaders || !authHeaders.startsWith("Bearer ")){
         throw new ApiError(401, "Invalid Token");

@@ -4,11 +4,13 @@ import { Router } from "express";
 import { getAllDownloadedNotesSchema } from "../validators/getAllDownloads.validation";
 import { validate } from "@/shared/middlewares/validate.middleware";
 import { getAllDownloadedNotesController } from "../controllers/getAllDownloadedNotes.controller";
+import { resolveCurrentUser } from "@/shared/middlewares/resolveCurrentUser.middleware";
 
 const router = Router();
 
 router.route('/').get(
     verifyFirebaseToken,
+    resolveCurrentUser,
     requireVerifiedEmail,
     validate(getAllDownloadedNotesSchema),
     getAllDownloadedNotesController

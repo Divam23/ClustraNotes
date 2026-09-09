@@ -6,6 +6,7 @@ export const requireVerifiedEmail = (
     res: Response,
     next: NextFunction
 ) => {
+    console.log("EMAIL VERIFICATION MIDDLEWARE REACHED")
     if (!req.firebaseUser?.email_verified) {
         return next(
             new ApiError(

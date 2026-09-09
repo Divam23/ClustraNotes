@@ -22,6 +22,7 @@ const NoteSchema = new Schema<INote>(
 
         description: {
             type: String,
+            required: true,
             trim: true,
             maxlength: 1000,
             default: '',
@@ -95,7 +96,7 @@ const NoteSchema = new Schema<INote>(
         semester: {
             type: Number,
             min: 1,
-            max: 11,
+            max: 10,
             index: true,
         },
 

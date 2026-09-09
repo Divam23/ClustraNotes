@@ -8,6 +8,8 @@ export interface CreateNoteDto{
     category: NoteCategoryType,
     tags?:string[],
     course: string,
+    branch?:string,
+    collegeName?: string,
     university?:string,
     semester:number,
     language?:string,

@@ -17,6 +17,7 @@ export const createNote = async ({
     noteData: CreateNoteDto;
     uploadedFile: Express.Multer.File;
 }) => {
+    console.log("REACHED UPLOAD SERVICE")
     const user = await User.findOne({
         firebaseUid,
     }).lean();
@@ -25,6 +26,7 @@ export const createNote = async ({
         throw new ApiError(404, 'User not found');
     }
 
+    console.log(noteData);
     validateFile(uploadedFile.mimetype, uploadedFile.size);
 
     const contentType = getNoteContentType(uploadedFile.mimetype);
@@ -52,10 +54,11 @@ export const createNote = async ({
             contentType,
             uploader: user._id,
         }); 
-        
+
         return note;
 
     } catch (error) {
+        console.log("Note Upload Error: ", error)
         if (path) {
             try {
                 await firebaseStorageProvider.deleteFile(path);

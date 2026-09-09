@@ -22,6 +22,7 @@ import { downloadSingleNoteController } from '../downloads/controllers/downloadS
 import { toggleLikeSchema } from '../likes/validators/toggleLike.validation';
 import { getUserUploadedNotesController } from './controllers/getUserUploadedNotes.controller';
 import { getUserUploadedNotesSchema } from './validators/getUserUploadedNotesSchema.validator';
+import { resolveCurrentUser } from '@/shared/middlewares/resolveCurrentUser.middleware';
 
 const router = Router();
 
@@ -34,6 +35,7 @@ router
     .route('/:noteId/comments')
     .get(
         verifyFirebaseToken,
+        resolveCurrentUser,
         requireVerifiedEmail,
         validate(getCommentsSchema),
         getAllTopLevelCommentsController
@@ -42,6 +44,7 @@ router
     .route('/create')
     .post(
         verifyFirebaseToken,
+        resolveCurrentUser,
         requireVerifiedEmail,
         noteUpload.single('file'),
         validate(createNoteSchema),
@@ -51,6 +54,7 @@ router
     .route('/:noteId')
     .get(
         verifyFirebaseToken,
+        resolveCurrentUser,
         requireVerifiedEmail,
         validate(getNoteIdSchema),
         getSingleNoteController
@@ -59,6 +63,7 @@ router
     .route('/delete/:noteId')
     .delete(
         verifyFirebaseToken,
+        resolveCurrentUser,
         requireVerifiedEmail,
         validate(deleteNoteSchema),
         deleteSingleNoteController
@@ -67,6 +72,7 @@ router
     .route('/:noteId')
     .patch(
         verifyFirebaseToken,
+        resolveCurrentUser,
         requireVerifiedEmail,
         validate(getNoteIdSchema),
         validate(updateNoteSchema),
@@ -76,6 +82,7 @@ router
     .route('/:noteId/comments')
     .post(
         verifyFirebaseToken,
+        resolveCurrentUser,
         requireVerifiedEmail,
         validate(createCommentSchema),
         createCommentController
@@ -84,6 +91,7 @@ router
     .route('/:noteId/like')
     .post(
         verifyFirebaseToken,
+        resolveCurrentUser,
         requireVerifiedEmail,
         validate(toggleLikeSchema),
         toggleNoteLikeController
@@ -93,6 +101,7 @@ router
     .route('/:noteId/download')
     .post(
         verifyFirebaseToken,
+        resolveCurrentUser,
         requireVerifiedEmail,
         validate(downloadSingleNoteSchema),
         downloadSingleNoteController
@@ -103,6 +112,7 @@ router
     .route('/me')
     .get(
         verifyFirebaseToken,
+        resolveCurrentUser,
         requireVerifiedEmail,
         validate(getUserUploadedNotesSchema),
         getUserUploadedNotesController

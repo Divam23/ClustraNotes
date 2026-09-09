@@ -1,4 +1,4 @@
-import {ZodType}  from 'zod';
+import { ZodType } from 'zod';
 import { Request, Response, NextFunction } from 'express';
 import { ApiError } from '@/shared/utils/ApiError';
 
@@ -11,19 +11,25 @@ type ValidatedRequest = {
 export const validate = (schema: ZodType) => {
     return async (req: Request, res: Response, next: NextFunction) => {
         try {
+            console.log("VALIDATE MIDDLEWARE REACHED")
             const parsed = (await schema.parseAsync({
                 body: req.body,
                 params: req.params,
                 query: req.query,
             })) as ValidatedRequest;
 
-            req.body = parsed.body ?? req.body;
-            req.params = parsed.params ?? req.params;
-            req.query = parsed.query ?? req.query as any;
+            console.log('VALIDATE: parse succeeded');
+      console.log('PARSED:', parsed);
 
+            req.body = parsed.body ?? req.body;
+            console.log('VALIDATE: before next');
             next();
+            console.log('VALIDATE: next called');
         } catch (error: any) {
-            next(new ApiError(400, error.errors?.[0]?.message ?? 'Validation failed'));
+            console.log('ERROR: ', error);
+            console.log('REQ BODY:', req.body);
+            console.log('REQ FILE:', req.file);
+            next(new ApiError(400, error.issues?.[0]?.message ?? 'Validation failed'));
         }
     };
 };

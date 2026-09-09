@@ -6,6 +6,11 @@ import { ApiError } from '@/shared/utils/ApiError';
 import { mapCreateNoteResponse } from '../mappers/createNote.mapper';
 
 export const uploadNote = asyncHandler(async (req: Request, res: Response) => {
+    console.log('UPLOAD CONTROLLER REACHED');
+
+    console.log('REQ USER:', req.user);
+    console.log('REQ FILE:', req.file);
+    console.log('REQ BODY:', req.body);
     if (!req.user) {
         throw new ApiError(404, 'User not found');
     }
@@ -27,11 +32,5 @@ export const uploadNote = asyncHandler(async (req: Request, res: Response) => {
         isOwner: true,
     });
 
-    return res.status(201).json(
-      new ApiResponse(
-        201, 
-        response,
-        'Note Uploaded Successfully'
-      )
-    );
+    return res.status(201).json(new ApiResponse(201, response, 'Note Uploaded Successfully'));
 });
